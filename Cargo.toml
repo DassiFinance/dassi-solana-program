@@ -1,0 +1,32 @@
+[package]
+name = "dassi-solana-program"
+version = "0.1.0"
+edition = "2018"
+authors = ["Sachin Nandal <nandalsachin66@gmail.com>", 
+            "Maciej Tabert <maciej@tabert.pl",
+            "Dassi Finance <dassi.social@gmail.com>"]
+license = "WTFPL"
+repository = ""
+publish = false
+
+[dependencies]
+solana-program = "1.7.9"
+thiserror = "1.0.26"
+spl-token = {version = "3.2.0", features = ["no-entrypoint"]}
+arrayref = "0.3.6"
+borsh = "0.9.1"
+bs58 = "0.4.0"
+
+[features]
+no-entrypoint = []
+test-bpf = []
+
+[dev-dependencies]
+assert_matches = "1.5.0"
+solana-program-test = "1.7.9"
+solana-sdk = "1.7.9"
+solana-validator = "1.7.9"
+
+
+[lib]
+crate-type = ["cdylib", "lib"]
