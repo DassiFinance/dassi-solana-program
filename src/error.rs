@@ -43,7 +43,7 @@ pub enum DassiError {
     /// Borrower Already Have Active Loan
     #[error("Borrower Already Have Active Loan")]
     BorrowerAlreadyHaveActiveLoan,
-    /// Some Other Active Stake User Is Using This Space
+    /// Space in use
     #[error("Space Not Empty")]
     SpaceNotEmpty,
     /// Borrower Already Funded
@@ -73,12 +73,9 @@ pub enum DassiError {
     /// Admin Does Not Matched
     #[error("Admin Does Not Matched")]
     AdminDoesNotMatched,
-    /// Entry Fee Vault Account Does Not Matched
-    #[error("Entry Fee Vault Account Does Not Matched")]
-    EntryFeeVaultAccountDoesNotMatched,
-    /// Stake Vault Account Does Not Matched
-    #[error("Stake Vault Account Does Not Matched")]
-    StakeVaultAccountDoesNotMatched,
+    /// Dassi Vault Account Does Not Matched
+    #[error("Dassi Vault Account Does Not Matched")]
+    DassiVaultAccountDoesNotMatched,
     ///PDA Account Does Not Matched
     #[error("PDA Account Does Not Matched")]
     PdaAccountDoesNotMatched,
