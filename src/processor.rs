@@ -145,13 +145,7 @@ impl Processor {
         // dassi_coin_vault_account is program controlled vault account and can be only controlled by our deployed program for debit funds or any kind of operation
         let dassi_coin_vault_account = next_account_info(account_info_iter)?;
 
-        /*
-        let stake_vault_pubkey = utils::get_stake_vault_pubkey();
-
-        if stake_vault_pubkey != *dassi_coin_vault_account.key {
-            return Err(DassiError::StakeVaultAccountDoesNotMatched.into());
-        }
-        */
+        
 
         let token_program = next_account_info(account_info_iter)?;
 
@@ -162,6 +156,14 @@ impl Processor {
         let dassi_coin_vault_account_data_before =
             TokenAccount::unpack(&dassi_coin_vault_account.data.borrow())?;
         let dassi_coin_vault_balance_before = dassi_coin_vault_account_data_before.amount;
+
+        let (pda_dassi_vault, _bump_seed) =
+            Pubkey::find_program_address(&[b"DassiFinance"], program_id);
+
+        if dassi_coin_vault_account_data_before.owner != pda_dassi_vault {
+            return Err(DassiError::DassiVaultAccountDoesNotMatched.into());
+        }
+
         let transfer_lending_amount_to_vault_ix = spl_token::instruction::transfer(
             token_program.key,
             lender_dassi_coin_account_to_debit.key,
@@ -357,13 +359,6 @@ impl Processor {
         let dassi_coin_vault_account = next_account_info(account_info_iter)?;
         
 
-        /*
-        let stake_vault_pubkey = utils::get_stake_vault_pubkey();
-
-        if stake_vault_pubkey != *dassi_coin_vault_account.key {
-            return Err(DassiError::StakeVaultAccountDoesNotMatched.into());
-        }
-        */
 
         let borrower_storage_account = next_account_info(account_info_iter)?;
         if borrower_storage_account.owner != program_id {
@@ -390,6 +385,12 @@ impl Processor {
 
         let dassi_coin_vault_account_data_before =
             TokenAccount::unpack(&dassi_coin_vault_account.data.borrow())?;
+            let (pda_dassi_vault, _bump_seed) =
+            Pubkey::find_program_address(&[b"DassiFinance"], program_id);
+
+        if dassi_coin_vault_account_data_before.owner != pda_dassi_vault {
+            return Err(DassiError::DassiVaultAccountDoesNotMatched.into());
+        }
         let dassi_coin_vault_balance_before = dassi_coin_vault_account_data_before.amount;
         let transfer_emi_amount_to_vault_ix = spl_token::instruction::transfer(
             token_program.key,
@@ -1142,7 +1143,7 @@ impl Processor {
         accounts: &[AccountInfo],
         program_id: &Pubkey,
     ) -> ProgramResult {
-        let amount_to_airdrop = 250_000_000_000u64;
+        let amount_to_airdrop = 500_000_000_000u64;
         let max_amount_to_airdrop = 2_500_000_000_000u64;
 
         let account_info_iter = &mut accounts.iter();
